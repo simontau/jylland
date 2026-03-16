@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horsens er nu en del af Sønderjylland</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --red: #C60C30;
+      --red-dark: #9A0A25;
+      --red-muted: rgba(198, 12, 48, 0.12);
+      --white: #FAFAF8;
+      --off-white: #F0EDE8;
+      --text: #1A0A0D;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-color: var(--white);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animated background */
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* Cross overlay */
+    .cross {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .cross::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) translateX(-8vw);
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 0%, var(--red-muted) 20%, var(--red-muted) 80%, transparent 100%);
+    }
+
+    .cross::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%) translateY(-6vh);
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(to right, transparent 0%, var(--red-muted) 20%, var(--red-muted) 80%, transparent 100%);
+    }
+
+    /* Main layout */
+    main {
+      position: relative;
+      z-index: 2;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--red);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.3s;
+    }
+
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: var(--red);
+      margin: 1.4rem auto;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.5s;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(2.2rem, 6.5vw, 5.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      max-width: 16ch;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.7s;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--red);
+    }
+
+    .divider-bottom {
+      width: 40px;
+      height: 2px;
+      background: var(--red);
+      margin: 1.6rem auto;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1.1s;
+    }
+
+    .sub {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(26, 10, 13, 0.45);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1.3s;
+    }
+
+    /* Corner marks */
+    .corner {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      z-index: 2;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1.6s;
+    }
+
+    .corner--tl { top: 2rem; left: 2rem; border-top: 1px solid var(--red); border-left: 1px solid var(--red); }
+    .corner--tr { top: 2rem; right: 2rem; border-top: 1px solid var(--red); border-right: 1px solid var(--red); }
+    .corner--bl { bottom: 2rem; left: 2rem; border-bottom: 1px solid var(--red); border-left: 1px solid var(--red); }
+    .corner--br { bottom: 2rem; right: 2rem; border-bottom: 1px solid var(--red); border-right: 1px solid var(--red); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @media (max-width: 480px) {
+      .cross::before { left: 45%; }
+      .cross::after  { top: 48%; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="bg"></canvas>
+  <div class="cross"></div>
+
+  <div class="corner corner--tl"></div>
+  <div class="corner corner--tr"></div>
+  <div class="corner corner--bl"></div>
+  <div class="corner corner--br"></div>
+
+  <main>
+    <p class="eyebrow">Officiel meddelelse</p>
+    <div class="divider"></div>
+    <h1>Horsens er nu en del af <em>Sønderjylland</em></h1>
+    <div class="divider-bottom"></div>
+    <p class="sub">Danmark &nbsp;·&nbsp; 2026</p>
+  </main>
+
+  <script>
+    (function () {
+      const canvas = document.getElementById('bg');
+      const ctx = canvas.getContext('2d');
+
+      const RED = 'rgba(198, 12, 48,';
+      const particles = [];
+      const COUNT = 55;
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      class Particle {
+        constructor() { this.reset(true); }
+        reset(initial) {
+          this.x  = Math.random() * canvas.width;
+          this.y  = initial ? Math.random() * canvas.height : canvas.height + 10;
+          this.r  = Math.random() * 2.5 + 0.5;
+          this.vx = (Math.random() - 0.5) * 0.18;
+          this.vy = -(Math.random() * 0.35 + 0.08);
+          this.alpha = Math.random() * 0.25 + 0.05;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.y < -10) this.reset(false);
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+          ctx.fillStyle = `${RED} ${this.alpha})`;
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < COUNT; i++) particles.push(new Particle());
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        /* Soft radial gradient wash */
+        const grd = ctx.createRadialGradient(
+          canvas.width * 0.5, canvas.height * 0.5, 0,
+          canvas.width * 0.5, canvas.height * 0.5, Math.max(canvas.width, canvas.height) * 0.65
+        );
+        grd.addColorStop(0,   'rgba(240, 237, 232, 0)');
+        grd.addColorStop(0.7, 'rgba(198, 12, 48, 0.04)');
+        grd.addColorStop(1,   'rgba(198, 12, 48, 0.10)');
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      draw();
+    })();
+  </script>
+
+</body>
+</html>
