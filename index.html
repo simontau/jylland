@@ -23,9 +23,7 @@
       --text: #1A0A0D;
     }
 
-    html {
-      height: 100%;
-    }
+    html { height: 100%; }
 
     body {
       background-color: var(--white);
@@ -180,13 +178,8 @@
       padding: 0 1rem;
     }
 
-    .col:first-child {
-      padding-left: 0;
-    }
-
-    .col:last-child {
-      padding-right: 0;
-    }
+    .col:first-child { padding-left: 0; }
+    .col:last-child  { padding-right: 0; }
 
     /* ── Article pieces ── */
     .kicker {
@@ -207,17 +200,9 @@
       margin-bottom: 0.5rem;
     }
 
-    .art-headline.large {
-      font-size: clamp(1.15rem, 2.8vw, 1.65rem);
-    }
-
-    .art-headline.medium {
-      font-size: clamp(1rem, 2vw, 1.25rem);
-    }
-
-    .art-headline.small {
-      font-size: clamp(0.88rem, 1.6vw, 1.05rem);
-    }
+    .art-headline.large  { font-size: clamp(1.15rem, 2.8vw, 1.65rem); }
+    .art-headline.medium { font-size: clamp(1rem, 2vw, 1.25rem); }
+    .art-headline.small  { font-size: clamp(0.88rem, 1.6vw, 1.05rem); }
 
     .byline {
       font-size: 0.65rem;
@@ -262,10 +247,7 @@
       margin: 0 0.8rem;
     }
 
-    .sub-art {
-      padding: 0 0.3rem;
-    }
-
+    .sub-art { padding: 0 0.3rem; }
     .sub-art:first-child { padding-left: 0; }
     .sub-art:last-child  { padding-right: 0; }
 
@@ -309,16 +291,87 @@
       top: 0.15em;
     }
 
-    /* ── Section rule ── */
-    .section-rule {
-      border-top: 1px solid #d0ccc5;
-      margin: 2rem 0 0;
-      padding: 0.5rem 0 1.5rem;
-      text-align: center;
-      font-size: 0.62rem;
+    /* ── Page navigation ── */
+    .page-nav {
+      display: flex;
+      align-items: stretch;
+      border-top: 3px double #1A0A0D;
+      margin-top: 2.5rem;
+      min-height: 5rem;
+    }
+
+    .page-nav-prev,
+    .page-nav-next {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1.2rem 1.8rem;
+      text-decoration: none;
+      flex: 1;
+      gap: 0.25rem;
+      transition: background 0.15s;
+    }
+
+    .page-nav-prev {
+      background: var(--off-white);
+      color: var(--text);
+      border-right: 1px solid #d0ccc5;
+    }
+
+    .page-nav-prev:hover { background: #e6e3de; }
+
+    .page-nav-next {
+      background: var(--red);
+      color: var(--white);
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    .page-nav-next:hover { background: var(--red-dark); }
+
+    .page-nav-spacer {
+      flex: 1;
+      border-right: 1px solid #d0ccc5;
+    }
+
+    .page-nav-label {
+      font-size: 0.58rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: rgba(26,10,13,0.35);
+      opacity: 0.75;
+    }
+
+    .page-nav-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
+      line-height: 1.25;
+    }
+
+    .page-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 2.5rem;
+      border-right: 1px solid #d0ccc5;
+      flex-shrink: 0;
+    }
+
+    .page-indicator-num {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 2.4rem;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .page-indicator-of {
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(26,10,13,0.4);
+      margin-top: 0.25rem;
     }
 
     /* ── Footer ── */
@@ -349,9 +402,7 @@
         grid-template-columns: 1fr;
       }
 
-      .col-rule {
-        display: none;
-      }
+      .col-rule { display: none; }
 
       .col {
         padding: 0;
@@ -360,17 +411,11 @@
         margin-bottom: 1.5rem;
       }
 
-      .col:last-child {
-        border-bottom: none;
-      }
+      .col:last-child { border-bottom: none; }
 
-      .sub-articles {
-        grid-template-columns: 1fr;
-      }
+      .sub-articles { grid-template-columns: 1fr; }
 
-      .sub-articles .col-rule-v {
-        display: none;
-      }
+      .sub-articles .col-rule-v { display: none; }
 
       .sub-art {
         padding: 0;
@@ -379,17 +424,19 @@
         margin-bottom: 1rem;
       }
 
-      .meta-bar {
-        flex-direction: column;
-        gap: 0.3rem;
-        text-align: center;
-      }
-
+      .meta-bar,
       .meta-bar-bottom {
         flex-direction: column;
         gap: 0.3rem;
         text-align: center;
       }
+
+      .page-nav-prev,
+      .page-nav-next { padding: 1rem; }
+
+      .page-indicator { padding: 1rem; }
+
+      .page-indicator-num { font-size: 1.6rem; }
     }
   </style>
 </head>
@@ -584,246 +631,18 @@
 
     </div><!-- /columns -->
 
-    <!-- Section divider 1 -->
-    <div class="section-rule">— Fortsættes på side 2 — Indenrigs &amp; Trafik —</div>
-
-    <!-- SECTION 2: Indenrigs & Trafik -->
-    <div class="columns">
-
-      <!-- LEFT COLUMN -->
-      <div class="col">
-        <p class="kicker">Trafik</p>
-        <h2 class="art-headline medium">Vejle-motorvejen omdøbes til »Den Sønderjyske Adgangsvej« — ingen har spurgt Vejdirektoratet</h2>
-        <p class="byline">Infrastrukturredaktionen · Vejle / Horsens</p>
-        <p class="body-text">Byrådet vedtog enstemmigt at omdøbe motorvejsstrækningen fra Vejle til Horsens. Vejdirektoratets presseafdeling opdagede det via et delt Facebook-opslag. Nye vejskilte er ikke bestilt. "Det er mere et symbolsk tiltag," oplyser kommunen.</p>
-        <hr class="art-divider">
-        <p class="kicker">Uddannelse</p>
-        <h2 class="art-headline medium">Horsens Gymnasium indfører obligatorisk sønderjysk som andetsprog — lærerne er selv begyndt at lære det</h2>
-        <p class="byline">Af vores uddannelseskorrespondent</p>
-        <p class="body-text">Fra næste skoleår skal alle elever på Horsens Gymnasium lære sønderjysk dialekt som valgfag. Rektoren kalder det "kulturbærende." Tre lærere har meldt sig til undervisningen. Én har allerede opgivet. Undervisningsmaterialet er kopieret fra en YouTube-kanal med 340 abonnenter.</p>
-        <hr class="art-divider">
-        <p class="kicker">Sundhed</p>
-        <h2 class="art-headline medium">Regionshospitalet kræver nu rødkål ved alle indlæggelser — ernæringseksperter rystet</h2>
-        <p class="byline">Sundhedsredaktionen</p>
-        <p class="body-text">Regionshospitalet Horsens har opdateret deres patientmenu. Rødkål er nu obligatorisk tilbehør til alle måltider — inklusive morgenmad. En ernæringsekspert fra Aarhus Universitetshospital kaldte beslutningen "uden medicinsk grundlag." Hospitalet svarede: "Det er en kulturel beslutning."</p>
+    <!-- Page navigation -->
+    <nav class="page-nav">
+      <div class="page-nav-spacer"></div>
+      <div class="page-indicator">
+        <span class="page-indicator-num">1</span>
+        <span class="page-indicator-of">Side af 4</span>
       </div>
-
-      <!-- VERTICAL RULE -->
-      <div class="col-rule"></div>
-
-      <!-- CENTER COLUMN -->
-      <div class="col">
-        <div class="hero-article">
-          <p class="kicker">Hastemelding</p>
-          <h2 class="art-headline large" style="font-size: clamp(1.4rem, 3.5vw, 2.1rem);">Statsminister indkaldt til hasteforetræde efter at have sagt »Horsens er i Østjylland« på TV 2</h2>
-          <p class="byline">Af chefredaktionens politiske udsendte · Christiansborg</p>
-          <p class="body-text">Statsministeren smed onsdag aften en verbal bombe i en direkte tv-udsendelse, da han i forbifarten omtalte Horsens som "en midtjysk by med østjysk placering." Horsens Byråd indkaldte omgående til ekstraordinært møde. En delegation på syv byrådsmedlemmer tog natten over til København. De ankom til Christiansborg kl. 06:47 og stillede sig op foran porten med en plakat, der blot stod: »Faktisk sønderjysk.«</p>
-          <p class="body-text" style="margin-top: 0.7rem;">Statsministerens presseafdeling forsøgte at afbøde krisen med en erklæring om, at statsministeren "respekterer alle geografiske selvforståelser." Det hjalp ikke. Horsens Avisen kørte historien under overskriften "SKANDALE" med fem udråbstegn. Det er rekord.</p>
-          <p class="body-text" style="margin-top: 0.7rem;">Situationen er fortsat uafklaret. Statsministeren har tilbudt at komme på besøg i Horsens og spise rødkål. Tilbuddet er under overvejelse.</p>
-        </div>
-        <div class="sub-articles">
-          <div class="sub-art">
-            <p class="kicker">Sport</p>
-            <h3 class="art-headline small">Horsens Håndbold skifter navn til SønderjyskHåndbold — Dansk Håndbold Forbund beder om "lidt ro"</h3>
-            <p class="byline">Sportsredaktionen</p>
-            <p class="body-text">Bestyrelsen meddelte navneskiftet via en pressemeddelelse på 40 ord. Forbundet har bedt om en pause. Det er uklart om pausen er geografisk eller administrativ.</p>
-          </div>
-          <div class="col-rule-v"></div>
-          <div class="sub-art">
-            <p class="kicker">Bolig</p>
-            <h3 class="art-headline small">Ejendomsmæglere markedsfører nu boliger som »sønderjysk beliggenhed, tæt på alt«</h3>
-            <p class="byline">Boligredaktionen</p>
-            <p class="body-text">Horsens-mæglere har opdateret alle boligannoncer med den nye geografiske betegnelse. Priserne er steget 3 %. Ingen køber har klaget.</p>
-          </div>
-          <div class="col-rule-v"></div>
-          <div class="sub-art">
-            <p class="kicker">Transport</p>
-            <h3 class="art-headline small">DSB annoncerer ny togrute: Aabenraa–Horsens Direkte — afgang én gang dagligt, ankomst "cirka"</h3>
-            <p class="byline">Transportredaktionen</p>
-            <p class="body-text">DSB bekræfter ruten i en pressemeddelelse. Køreplan mangler. Billetsalg åbner "snart." Ingen tog er reserveret endnu.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- VERTICAL RULE -->
-      <div class="col-rule"></div>
-
-      <!-- RIGHT COLUMN -->
-      <div class="col">
-        <p class="kicker">Teknologi</p>
-        <h2 class="art-headline medium">Google Maps nægter at flytte Horsens til Sønderjylland — »Vi opdaterer ikke satiriske ændringer«</h2>
-        <p class="byline">Teknologikorrespondenten · Mountain View / Horsens</p>
-        <p class="body-text">En henvendelse fra Horsens Kommune til Googles kartografiske afdeling er blevet afvist. Google Maps fastholder, at Horsens tilhører Region Midtjylland. "Vi er klar over situationen og følger den," lød svaret fra en PR-medarbejder i Dublin. Kommunen overvejer nu at trykke egne kort.</p>
-        <hr class="art-divider">
-        <p class="kicker">Udenrigs</p>
-        <h2 class="art-headline medium">NATO overvejer sønderjysk grænsekontor i Horsens — til intet bestemt formål</h2>
-        <p class="byline">Af vores forsvarskorrespondent · Bruxelles / Horsens</p>
-        <p class="body-text">NATO's logistikstab har i interne dokumenter — lækket til Sønderjyllands Tidende — diskuteret muligheden for et forbindelsesbureau i Horsens. Det fremgår ikke klart hvad bureauet skal lave. En talsmand sagde "vi har ikke nogen kommentarer til interne dokumenter" og lagde røret på.</p>
-      </div>
-
-    </div><!-- /columns section 2 -->
-
-    <!-- Section divider 2 -->
-    <div class="section-rule">— Fortsættes på side 3 — Kongehus &amp; Erhverv —</div>
-
-    <!-- SECTION 3: Kongehus & Erhverv -->
-    <div class="columns">
-
-      <!-- LEFT COLUMN -->
-      <div class="col">
-        <p class="kicker">Økonomi</p>
-        <h2 class="art-headline medium">Horsens Sparekasse indfører »Sønderjysk Krone« som lokal valuta — kursen er 1:1 mod danske kroner</h2>
-        <p class="byline">Finansredaktionen</p>
-        <p class="body-text">Horsens Sparekasse meddeler, at de fra 1. juni udsteder Sønderjyske Kroner i seddelform. Sedlerne er trykt på A4-papir med en laserprinter på direktørkontoret. Nationalbanken er ikke orienteret. "Det er mest symbolsk," oplyser bankchefen.</p>
-        <hr class="art-divider">
-        <p class="kicker">Mad &amp; Drikke</p>
-        <h2 class="art-headline medium">Ny Horsens-restaurant serverer udelukkende rødkål — i 47 variationer</h2>
-        <p class="byline">Vores madkorrespondent · Horsens</p>
-        <p class="body-text">Restaurant »Rødt &amp; Kålt« åbnede fredag i Horsens centrum med menukort på 47 rødkålsretter. Anmelderen fra JydskeVestkysten gav 2 stjerner. Køen ud af døren beskrives som "uforklarlig lang." Michelin er ikke inviteret, men ejeren siger de "sikkert er på vej."</p>
-        <hr class="art-divider">
-        <p class="kicker">Politik</p>
-        <h2 class="art-headline medium">Skanderborg sender formel klage — »Vi vil også gerne være sønderjyske«</h2>
-        <p class="byline">Politisk korrespondent · Skanderborg</p>
-        <p class="body-text">Skanderborg Kommune har indsendt en 12 siders skriftlig ansøgning om optagelse i Sønderjylland. Brevet er stilet til "Den Sønderjyske Ledelse, Horsens." Det er uklart om en sådan ledelse eksisterer. Ingen har svaret endnu. Skanderborgs borgmester siger han "venter tålmodigt."</p>
-      </div>
-
-      <!-- VERTICAL RULE -->
-      <div class="col-rule"></div>
-
-      <!-- CENTER COLUMN -->
-      <div class="col">
-        <div class="hero-article">
-          <p class="kicker">Kongehuset</p>
-          <h2 class="art-headline large" style="font-size: clamp(1.4rem, 3.5vw, 2.1rem);">Kong Frederik modtager Horsens-delegation — siger »meget interessant« og smiler polisk</h2>
-          <p class="byline">Af hofkorrespondenten · Marselisborg / Horsens</p>
-          <p class="body-text">En syv mand stor delegation fra Horsens Byråd blev mandag modtaget på Marselisborg Slot til et møde med Kong Frederik. Delegationen medbragte en overstor rødkålstærte og et håndmalet sønderjysk flag i papmaché. Kongen betragtede det hele i tyve sekunder og sagde "meget interessant." Derefter smilede han.</p>
-          <p class="body-text" style="margin-top: 0.7rem;">Hofmarskallatets presseafdeling udgav efterfølgende en kort erklæring om, at kongen "med interesse noterer sig de geopolitiske udviklinger i Horsens Kommune." Erklæringen sagde ikke mere end det. Den var til gengæld fire sider lang.</p>
-          <p class="body-text" style="margin-top: 0.7rem;">Borgmesteren tolkede mødet som "en klar kongelig opbakning." Kongehusets kommunikationsrådgiver dementerede dette uden at bruge ordet "dementi."</p>
-        </div>
-        <div class="sub-articles">
-          <div class="sub-art">
-            <p class="kicker">Erhverv</p>
-            <h3 class="art-headline small">IKEA Horsens overvejer at omdøbe sig til »IKÆ« — sønderjysk stavemåde, samme priser, samme stressniveau</h3>
-            <p class="byline">Erhvervsredaktionen</p>
-            <p class="body-text">IKEA har ikke kommenteret. En anonym kilde siger navneskiftet "er i gang." Votéringssektion forbliver kaotisk uanset regionstilhørsforhold.</p>
-          </div>
-          <div class="col-rule-v"></div>
-          <div class="sub-art">
-            <p class="kicker">Arkitektur</p>
-            <h3 class="art-headline small">Rådhuset males rød/hvid natten over — kommunen siger det var planlagt</h3>
-            <p class="byline">Lokalredaktionen</p>
-            <p class="body-text">Horsens Rådhus fremstod tirsdag morgen i friske rød-hvide farver. Kommunen bekræfter malingen. Tilladelse fremvises ikke. Naboer spurgte ikke.</p>
-          </div>
-          <div class="col-rule-v"></div>
-          <div class="sub-art">
-            <p class="kicker">Kultur</p>
-            <h3 class="art-headline small">Horsens Kunstmuseum køber sønderjysk akvarelmaleri for 2,4 mio. — motivet er en rødkålsagurk</h3>
-            <p class="byline">Kulturredaktionen</p>
-            <p class="body-text">Museet bekræfter købet. Direktøren kalder det "et vigtigt kulturhistorisk dokument." Kritikere er tavse. Prisen er ikke til debat.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- VERTICAL RULE -->
-      <div class="col-rule"></div>
-
-      <!-- RIGHT COLUMN -->
-      <div class="col">
-        <p class="kicker">Sport</p>
-        <h2 class="art-headline medium">Tour de France-arrangørerne kontaktet vedr. sønderjysk etape gennem Horsens — svarer ikke</h2>
-        <p class="byline">Sportsredaktionen · Paris / Horsens</p>
-        <p class="body-text">Horsens Kommune har sendt en formel invitation til Tour de France-arrangøren ASO om at inkludere en "sønderjysk etape" fra Aabenraa til Horsens. ASO har ikke svaret. Kommunen fortolker tavsheden som "åbenhed for dialog."</p>
-        <hr class="art-divider">
-        <p class="kicker">Kultur</p>
-        <h2 class="art-headline medium">Den Gamle By i Aarhus åbner sønderjysk udstilling — rekonstruerer Horsens i 1660</h2>
-        <p class="byline">Kulturkorrespondenten · Aarhus</p>
-        <p class="body-text">Den Gamle By åbner i maj en ny udstilling, der rekonstruerer Horsens som det "så ud da det fejlagtigt blev lagt til Østjylland." Museumsdirektøren kalder det "historisk korrektiv." Horsens Kommune har doneret en gammel cykel og en rullepølse-vogn til udstillingen.</p>
-      </div>
-
-    </div><!-- /columns section 3 -->
-
-    <!-- Section divider 3 -->
-    <div class="section-rule">— Fortsættes på side 4 — Videnskab &amp; Diverse Kaos —</div>
-
-    <!-- SECTION 4: Videnskab & Diverse Kaos -->
-    <div class="columns">
-
-      <!-- LEFT COLUMN -->
-      <div class="col">
-        <p class="kicker">Videnskab</p>
-        <h2 class="art-headline medium">Antropolog: Horsens-borgere siger faktisk »æ« 340 % mere end landsgennemsnittet</h2>
-        <p class="byline">Forskergruppen for Sønderjysk Sprog, SDU</p>
-        <p class="body-text">Et nyt lingvistisk studie dokumenterer at Horsens-borgere bruger det sønderjyske pronomen "æ" signifikant hyppigere end andre midtjyder. Studiet bygger på 14 timers optagelser fra Horsens Torv. Tre af timerne var lydoptagelse af en mand der råbte på sin hund. Data er "renset men stadig signifikante."</p>
-        <hr class="art-divider">
-        <p class="kicker">Klima</p>
-        <h2 class="art-headline medium">Klimaforskere: Sønderjyllands vinde peger nu konsekvent mod Horsens</h2>
-        <p class="byline">Klimaredaktionen · DMI</p>
-        <p class="body-text">DMI's seneste vindrosetanalyse viser, at de dominerende vinde fra Sønderjylland statistisk bevæger sig mod Horsens. En klimaforsker kaldte det "fuldstændig tilfældigt." En lokal politiker kaldte det "en naturlig tiltrækning." De to har ikke talt sammen.</p>
-        <hr class="art-divider">
-        <p class="kicker">Jura</p>
-        <h2 class="art-headline medium">Advokat sagsøger Danmarks Administrative Register for at kalde Horsens »Midtjylland«</h2>
-        <p class="byline">Retskorrespondenten</p>
-        <p class="body-text">En Horsens-baseret advokat har indgivet stævning mod Det Administrative Register, som fortsat kategoriserer Horsens under Region Midtjylland. Sagen er berammet til april. Dommeren har bedt om en geografisk ekspert. Ingen har meldt sig.</p>
-      </div>
-
-      <!-- VERTICAL RULE -->
-      <div class="col-rule"></div>
-
-      <!-- CENTER COLUMN -->
-      <div class="col">
-        <div class="hero-article">
-          <p class="kicker">Leder</p>
-          <h2 class="art-headline large" style="font-size: clamp(1.4rem, 3.5vw, 2.1rem);">Redaktionens leder: Vi undskylder ingenting — og vi er ikke færdige</h2>
-          <p class="body-text" style="font-style: italic;">Kære læser. Da vi grundlagde Sønderjyllands Tidende for blot tre uger siden, anede vi ikke hvilken storm vi åbnede. Vores postkasse er fyldt. Vores telefon ringer konstant. En mand fra Skanderborg har sendt os en håndskrevet protest på 40 sider. Vi har ikke læst den.</p>
-          <p class="body-text" style="margin-top: 0.7rem; font-style: italic;">Vi er fuldt bevidste om, at Horsens administrativt, historisk og kartografisk er beliggende i Region Midtjylland. Det nævner vi for fuldstændighedens skyld. Vi valgte bare ikke at lade det stå i vejen for en god historie.</p>
-          <p class="body-text" style="margin-top: 0.7rem; font-style: italic;">Vi fortsætter. Vi har artikler klar om Odense, der overvejer sønderjysk status. Vi har fået et tip om at Vejle Fjord juridisk set måske er en del af Lillebælt. Vi har en kilde der hævder at rødkål teknisk set stammer fra Horsens. Vi giver aldrig op.</p>
-        </div>
-        <div class="sub-articles">
-          <div class="sub-art">
-            <p class="kicker">Læserbreve</p>
-            <h3 class="art-headline small">»Min nabo hejste et sønderjysk flag i torsdags. Vi taler ikke mere.«</h3>
-            <p class="byline">Leif, 67, Horsens</p>
-            <p class="body-text">Leif skriver videre at naboen nu også har malet sin hoveddør rød. Leif overvejer at flytte. Han er ikke sikker på om Skanderborg er sønderjysk endnu.</p>
-          </div>
-          <div class="col-rule-v"></div>
-          <div class="sub-art">
-            <p class="kicker">Brevkasse</p>
-            <h3 class="art-headline small">Chefredaktøren svarer på denne uges breve — de fleste handler om rødkål</h3>
-            <p class="byline">Brevkasseredaktionen</p>
-            <p class="body-text">Denne uges 47 breve omhandler rødkål (32), grænseovergange (9), stavemåden af "sønderjysk" (4) og ét brev om en forsvundet cykel. Cyklen er ikke vores ansvar.</p>
-          </div>
-          <div class="col-rule-v"></div>
-          <div class="sub-art">
-            <p class="kicker">Annonce</p>
-            <h3 class="art-headline small">SØGES: Sønderjysk grænsepost-personale. Erfaring ikke nødvendig. Rødkål medbringes.</h3>
-            <p class="byline">Stillingsopslag · Horsens Kommune</p>
-            <p class="body-text">Stillingen er ulønnede men "kulturelt vigtig." Uniform er ikke leveret. Der er fri kaffe. Ansøgningsfrist er "løbende."</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- VERTICAL RULE -->
-      <div class="col-rule"></div>
-
-      <!-- RIGHT COLUMN -->
-      <div class="col">
-        <p class="kicker">Erhverv</p>
-        <h2 class="art-headline medium">Thy vil også gerne — »Vi har også haft en slags grænse engang«</h2>
-        <p class="byline">Nordjysk korrespondent · Thisted</p>
-        <p class="body-text">Thy Kommune har i et åbent brev udtrykt interesse for at deltage i den sønderjyske alliance. "Vi har faktisk en meget markant geografisk identitet," skriver borgmesteren. Det er uklart om nogen har inviteret Thy. Ingen har svaret brevet. Det er lagt på hjemmesiden under "diverse."</p>
-        <hr class="art-divider">
-        <p class="kicker">Religion</p>
-        <h2 class="art-headline medium">Horsens Klosterkirke erklærer sig som »Sønderjyllands Åndelige Centrum«</h2>
-        <p class="byline">Religionskorrespondenten</p>
-        <p class="body-text">Horsens Klosterkirke har i en bekendtgørelse i kirkebladet — oplag 340 — erklæret sig som sønderjysk åndeligt midtpunkt. Biskop Ole Kristensen i Aarhus Stift har sendt et brev. Kirken har endnu ikke åbnet det.</p>
-        <hr class="art-divider">
-        <p class="kicker">Finans</p>
-        <h2 class="art-headline medium">Børsnotering af »Sønderjylland A/S« overvejes — aktiekursen foreslås til »1 rødkål«</h2>
-        <p class="byline">Finanskorrespondenten · Nasdaq / Horsens</p>
-        <p class="body-text">En gruppe Horsens-iværksættere undersøger muligheden for at børsnotere Sønderjylland som selskab. Nasdaq er ikke spurgt. Finanstilsynet er heller ikke. Iværksætterne siger de "er ved at finde en advokat." Den søgte advokat er den samme der sagsøger Det Administrative Register.</p>
-      </div>
-
-    </div><!-- /columns section 4 -->
+      <a href="side2.html" class="page-nav-next">
+        <span class="page-nav-label">Næste side →</span>
+        <span class="page-nav-title">Indenrigs &amp; Trafik</span>
+      </a>
+    </nav>
 
     <!-- Footer -->
     <div class="footer">

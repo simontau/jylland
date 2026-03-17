@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sønderjyllands Tidende – Side 3: Kongehus & Erhverv</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #C60C30;
+      --red-dark: #9A0A25;
+      --white: #FAFAF8;
+      --off-white: #F0EDE8;
+      --text: #1A0A0D;
+    }
+
+    html { height: 100%; }
+
+    body {
+      background-color: var(--white);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      min-height: 100%;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .newspaper {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-left: 1px solid #d0ccc5;
+      border-right: 1px solid #d0ccc5;
+      background: var(--white);
+      padding: 0 2rem 3rem;
+      opacity: 0;
+      animation: fadeIn 0.6s ease forwards 0.2s;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .meta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid #d0ccc5;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      color: rgba(26,10,13,0.55);
+    }
+
+    .meta-bar .satire-label {
+      border: 1.5px solid var(--red);
+      color: var(--red);
+      font-weight: 600;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.18rem 0.55rem;
+    }
+
+    .masthead {
+      text-align: center;
+      padding: 1.8rem 0 1.4rem;
+      border-bottom: 3px double #1A0A0D;
+    }
+
+    .masthead h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(2.6rem, 7vw, 5.2rem);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .masthead .edition {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-top: 0.5rem;
+    }
+
+    .meta-bar-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-top: 1px solid #d0ccc5;
+      margin-top: 1.2rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      color: rgba(26,10,13,0.5);
+    }
+
+    .meta-bar-bottom .tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.78rem;
+      color: rgba(26,10,13,0.65);
+    }
+
+    .section-banner {
+      background: var(--off-white);
+      border-top: 3px solid var(--text);
+      border-bottom: 1px solid #d0ccc5;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.65rem 1rem;
+      margin: 0 -2rem;
+    }
+
+    .section-banner .section-label {
+      font-weight: 700;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(26,10,13,0.45);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .section-banner .section-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(0.9rem, 2.5vw, 1.35rem);
+      color: var(--text);
+    }
+
+    .columns {
+      display: grid;
+      grid-template-columns: 1.2fr 1px 1.8fr 1px 1.2fr;
+      gap: 0;
+      padding-top: 1.5rem;
+    }
+
+    .col-rule { background: #d0ccc5; margin: 0 1.2rem; }
+    .col { padding: 0 1rem; }
+    .col:first-child { padding-left: 0; }
+    .col:last-child  { padding-right: 0; }
+
+    .kicker {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.35rem;
+    }
+
+    .art-headline {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .art-headline.large  { font-size: clamp(1.15rem, 2.8vw, 1.65rem); }
+    .art-headline.medium { font-size: clamp(1rem, 2vw, 1.25rem); }
+    .art-headline.small  { font-size: clamp(0.88rem, 1.6vw, 1.05rem); }
+
+    .byline {
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(26,10,13,0.4);
+      margin-bottom: 0.55rem;
+      border-top: 1px solid #d0ccc5;
+      padding-top: 0.35rem;
+    }
+
+    .body-text {
+      font-size: 0.82rem;
+      text-align: justify;
+      hyphens: auto;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    .art-divider { border: none; border-top: 1px solid #d0ccc5; margin: 1.2rem 0; }
+
+    .hero-article {
+      border-bottom: 1px solid #d0ccc5;
+      margin-bottom: 1.2rem;
+      padding-bottom: 1.2rem;
+    }
+
+    .sub-articles {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr 1px 1fr;
+      gap: 0;
+    }
+
+    .sub-articles .col-rule-v { background: #d0ccc5; margin: 0 0.8rem; }
+    .sub-art { padding: 0 0.3rem; }
+    .sub-art:first-child { padding-left: 0; }
+    .sub-art:last-child  { padding-right: 0; }
+
+    /* ── Page navigation ── */
+    .page-nav {
+      display: flex;
+      align-items: stretch;
+      border-top: 3px double #1A0A0D;
+      margin-top: 2.5rem;
+      min-height: 5rem;
+    }
+
+    .page-nav-prev,
+    .page-nav-next {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1.2rem 1.8rem;
+      text-decoration: none;
+      flex: 1;
+      gap: 0.25rem;
+      transition: background 0.15s;
+    }
+
+    .page-nav-prev {
+      background: var(--off-white);
+      color: var(--text);
+      border-right: 1px solid #d0ccc5;
+    }
+
+    .page-nav-prev:hover { background: #e6e3de; }
+
+    .page-nav-next {
+      background: var(--red);
+      color: var(--white);
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    .page-nav-next:hover { background: var(--red-dark); }
+
+    .page-nav-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
+
+    .page-nav-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
+      line-height: 1.25;
+    }
+
+    .page-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 2.5rem;
+      border-right: 1px solid #d0ccc5;
+      flex-shrink: 0;
+    }
+
+    .page-indicator-num {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 2.4rem;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .page-indicator-of {
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(26,10,13,0.4);
+      margin-top: 0.25rem;
+    }
+
+    .footer {
+      border-top: 3px double #1A0A0D;
+      margin-top: 2rem;
+      padding-top: 0.9rem;
+      text-align: center;
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+      color: rgba(26,10,13,0.45);
+    }
+
+    @media (max-width: 768px) {
+      .newspaper { padding: 0 1rem 2rem; border-left: none; border-right: none; }
+      .section-banner { margin: 0 -1rem; flex-wrap: wrap; }
+      .columns { grid-template-columns: 1fr; }
+      .col-rule { display: none; }
+      .col { padding: 0; border-bottom: 1px solid #d0ccc5; padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+      .col:last-child { border-bottom: none; }
+      .sub-articles { grid-template-columns: 1fr; }
+      .sub-articles .col-rule-v { display: none; }
+      .sub-art { padding: 0; border-bottom: 1px solid #d0ccc5; padding-bottom: 1rem; margin-bottom: 1rem; }
+      .meta-bar, .meta-bar-bottom { flex-direction: column; gap: 0.3rem; text-align: center; }
+      .page-nav-prev, .page-nav-next { padding: 1rem; }
+      .page-indicator { padding: 1rem; }
+      .page-indicator-num { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="bg"></canvas>
+
+  <div class="newspaper">
+
+    <div class="meta-bar">
+      <span>Grundlagt 2026 &nbsp;·&nbsp; Nr. 1</span>
+      <span class="satire-label">Parodi &nbsp;·&nbsp; Satire &nbsp;·&nbsp; Ikke rigtige nyheder</span>
+      <span>Pris: 1 Sønderjysk Krone</span>
+    </div>
+
+    <div class="masthead">
+      <h1>Sønderjyllands Tidende</h1>
+      <p class="edition">Horsens Udgaven</p>
+      <div class="meta-bar-bottom">
+        <span>Mandag 16. Marts 2026</span>
+        <span class="tagline">»Horsens har altid tilhørt Syd«</span>
+        <span>&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="section-banner">
+      <span class="section-label">Side 3</span>
+      <span class="section-title">Kongehus &amp; Erhverv</span>
+    </div>
+
+    <div class="columns">
+
+      <!-- LEFT COLUMN -->
+      <div class="col">
+        <p class="kicker">Økonomi</p>
+        <h2 class="art-headline medium">Horsens Sparekasse indfører »Sønderjysk Krone« som lokal valuta — kursen er 1:1 mod danske kroner</h2>
+        <p class="byline">Finansredaktionen</p>
+        <p class="body-text">Horsens Sparekasse meddeler, at de fra 1. juni udsteder Sønderjyske Kroner i seddelform. Sedlerne er trykt på A4-papir med en laserprinter på direktørkontoret. Nationalbanken er ikke orienteret. "Det er mest symbolsk," oplyser bankchefen.</p>
+        <hr class="art-divider">
+        <p class="kicker">Mad &amp; Drikke</p>
+        <h2 class="art-headline medium">Ny Horsens-restaurant serverer udelukkende rødkål — i 47 variationer</h2>
+        <p class="byline">Vores madkorrespondent · Horsens</p>
+        <p class="body-text">Restaurant »Rødt &amp; Kålt« åbnede fredag i Horsens centrum med menukort på 47 rødkålsretter. Anmelderen fra JydskeVestkysten gav 2 stjerner. Køen ud af døren beskrives som "uforklarlig lang." Michelin er ikke inviteret, men ejeren siger de "sikkert er på vej."</p>
+        <hr class="art-divider">
+        <p class="kicker">Politik</p>
+        <h2 class="art-headline medium">Skanderborg sender formel klage — »Vi vil også gerne være sønderjyske«</h2>
+        <p class="byline">Politisk korrespondent · Skanderborg</p>
+        <p class="body-text">Skanderborg Kommune har indsendt en 12 siders skriftlig ansøgning om optagelse i Sønderjylland. Brevet er stilet til "Den Sønderjyske Ledelse, Horsens." Det er uklart om en sådan ledelse eksisterer. Ingen har svaret endnu. Skanderborgs borgmester siger han "venter tålmodigt."</p>
+      </div>
+
+      <div class="col-rule"></div>
+
+      <!-- CENTER COLUMN -->
+      <div class="col">
+        <div class="hero-article">
+          <p class="kicker">Kongehuset</p>
+          <h2 class="art-headline large" style="font-size: clamp(1.4rem, 3.5vw, 2.1rem);">Kong Frederik modtager Horsens-delegation — siger »meget interessant« og smiler polisk</h2>
+          <p class="byline">Af hofkorrespondenten · Marselisborg / Horsens</p>
+          <p class="body-text">En syv mand stor delegation fra Horsens Byråd blev mandag modtaget på Marselisborg Slot til et møde med Kong Frederik. Delegationen medbragte en overstor rødkålstærte og et håndmalet sønderjysk flag i papmaché. Kongen betragtede det hele i tyve sekunder og sagde "meget interessant." Derefter smilede han.</p>
+          <p class="body-text" style="margin-top: 0.7rem;">Hofmarskallatets presseafdeling udgav efterfølgende en kort erklæring om, at kongen "med interesse noterer sig de geopolitiske udviklinger i Horsens Kommune." Erklæringen sagde ikke mere end det. Den var til gengæld fire sider lang.</p>
+          <p class="body-text" style="margin-top: 0.7rem;">Borgmesteren tolkede mødet som "en klar kongelig opbakning." Kongehusets kommunikationsrådgiver dementerede dette uden at bruge ordet "dementi."</p>
+        </div>
+        <div class="sub-articles">
+          <div class="sub-art">
+            <p class="kicker">Erhverv</p>
+            <h3 class="art-headline small">IKEA Horsens overvejer at omdøbe sig til »IKÆ« — sønderjysk stavemåde, samme priser, samme stressniveau</h3>
+            <p class="byline">Erhvervsredaktionen</p>
+            <p class="body-text">IKEA har ikke kommenteret. En anonym kilde siger navneskiftet "er i gang." Votéringssektion forbliver kaotisk uanset regionstilhørsforhold.</p>
+          </div>
+          <div class="col-rule-v"></div>
+          <div class="sub-art">
+            <p class="kicker">Arkitektur</p>
+            <h3 class="art-headline small">Rådhuset males rød/hvid natten over — kommunen siger det var planlagt</h3>
+            <p class="byline">Lokalredaktionen</p>
+            <p class="body-text">Horsens Rådhus fremstod tirsdag morgen i friske rød-hvide farver. Kommunen bekræfter malingen. Tilladelse fremvises ikke. Naboer spurgte ikke.</p>
+          </div>
+          <div class="col-rule-v"></div>
+          <div class="sub-art">
+            <p class="kicker">Kultur</p>
+            <h3 class="art-headline small">Horsens Kunstmuseum køber sønderjysk akvarelmaleri for 2,4 mio. — motivet er en rødkålsagurk</h3>
+            <p class="byline">Kulturredaktionen</p>
+            <p class="body-text">Museet bekræfter købet. Direktøren kalder det "et vigtigt kulturhistorisk dokument." Kritikere er tavse. Prisen er ikke til debat.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-rule"></div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="col">
+        <p class="kicker">Sport</p>
+        <h2 class="art-headline medium">Tour de France-arrangørerne kontaktet vedr. sønderjysk etape gennem Horsens — svarer ikke</h2>
+        <p class="byline">Sportsredaktionen · Paris / Horsens</p>
+        <p class="body-text">Horsens Kommune har sendt en formel invitation til Tour de France-arrangøren ASO om at inkludere en "sønderjysk etape" fra Aabenraa til Horsens. ASO har ikke svaret. Kommunen fortolker tavsheden som "åbenhed for dialog."</p>
+        <hr class="art-divider">
+        <p class="kicker">Kultur</p>
+        <h2 class="art-headline medium">Den Gamle By i Aarhus åbner sønderjysk udstilling — rekonstruerer Horsens i 1660</h2>
+        <p class="byline">Kulturkorrespondenten · Aarhus</p>
+        <p class="body-text">Den Gamle By åbner i maj en ny udstilling, der rekonstruerer Horsens som det "så ud da det fejlagtigt blev lagt til Østjylland." Museumsdirektøren kalder det "historisk korrektiv." Horsens Kommune har doneret en gammel cykel og en rullepølse-vogn til udstillingen.</p>
+      </div>
+
+    </div><!-- /columns -->
+
+    <!-- Page navigation -->
+    <nav class="page-nav">
+      <a href="side2.html" class="page-nav-prev">
+        <span class="page-nav-label">← Forrige side</span>
+        <span class="page-nav-title">Indenrigs &amp; Trafik</span>
+      </a>
+      <div class="page-indicator">
+        <span class="page-indicator-num">3</span>
+        <span class="page-indicator-of">Side af 4</span>
+      </div>
+      <a href="side4.html" class="page-nav-next">
+        <span class="page-nav-label">Næste side →</span>
+        <span class="page-nav-title">Videnskab &amp; Diverse Kaos</span>
+      </a>
+    </nav>
+
+    <div class="footer">
+      Sønderjyllands Tidende &nbsp;·&nbsp; Horsens Udgaven &nbsp;·&nbsp; Al indhold er satire og parodi
+    </div>
+
+  </div><!-- /newspaper -->
+
+  <script>
+    (function () {
+      const canvas = document.getElementById('bg');
+      const ctx = canvas.getContext('2d');
+      const RED = 'rgba(198, 12, 48,';
+      const particles = [];
+      const COUNT = 55;
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      class Particle {
+        constructor() { this.reset(true); }
+        reset(initial) {
+          this.x = Math.random() * canvas.width;
+          this.y = initial ? Math.random() * canvas.height : canvas.height + 10;
+          this.r = Math.random() * 2.5 + 0.5;
+          this.vx = (Math.random() - 0.5) * 0.18;
+          this.vy = -(Math.random() * 0.35 + 0.08);
+          this.alpha = Math.random() * 0.12 + 0.03;
+        }
+        update() { this.x += this.vx; this.y += this.vy; if (this.y < -10) this.reset(false); }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+          ctx.fillStyle = `${RED} ${this.alpha})`;
+          ctx.fill();
+        }
+      }
+      for (let i = 0; i < COUNT; i++) particles.push(new Particle());
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const grd = ctx.createRadialGradient(canvas.width * 0.5, canvas.height * 0.5, 0, canvas.width * 0.5, canvas.height * 0.5, Math.max(canvas.width, canvas.height) * 0.65);
+        grd.addColorStop(0, 'rgba(240, 237, 232, 0)');
+        grd.addColorStop(0.7, 'rgba(198, 12, 48, 0.04)');
+        grd.addColorStop(1, 'rgba(198, 12, 48, 0.10)');
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(draw);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+      draw();
+    })();
+  </script>
+
+</body>
+</html>
