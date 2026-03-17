@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>elcos</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; overflow: hidden; width: 100vw; height: 100vh; }
+    #slide {
+      width: 100vw;
+      height: 100vh;
+      object-fit: contain;
+      display: block;
+    }
+    #counter {
+      position: fixed;
+      bottom: 16px;
+      right: 20px;
+      color: rgba(255,255,255,0.35);
+      font-family: monospace;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      pointer-events: none;
+    }
+    #left-zone, #right-zone {
+      position: fixed;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      cursor: none;
+    }
+    #left-zone { left: 0; }
+    #right-zone { right: 0; }
+  </style>
+</head>
+<body>
+  <img id="slide" src="../assets/Slide 1.png" alt="">
+  <div id="counter">1 / 8</div>
+  <div id="left-zone"></div>
+  <div id="right-zone"></div>
+  <script>
+    const total = 8;
+    let current = 1;
+
+    function show(n) {
+      current = Math.max(1, Math.min(total, n));
+      document.getElementById('slide').src = `../assets/Slide ${current}.png`;
+      document.getElementById('counter').textContent = `${current} / ${total}`;
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ') show(current + 1);
+      if (e.key === 'ArrowLeft') show(current - 1);
+    });
+
+    document.getElementById('right-zone').addEventListener('click', () => show(current + 1));
+    document.getElementById('left-zone').addEventListener('click', () => show(current - 1));
+  </script>
+</body>
+</html>
